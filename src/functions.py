@@ -101,6 +101,16 @@ def plyr2_defeats_plyr3(plyr2, spin_again=True):
     
     return prob
 
+def prob_plyr2_and_plyr3_too_small(plyr1):
+    """This function returns the probability that Player 2's
+    total and Player 3's total  will be under Player 1's
+    (input)."""
+    
+    import numpy as np
+    plyr2spin1s = np.arange(1, plyr1-1)
+    addends = [(plyr1-1-plyr2spin1) for plyr2spin1 in plyr2spin1s]
+    return (np.sum(addends) / 400)**2
+
 def first_player():
     """This function simulates the turn of the first person
     in the Showcase Showdown."""
