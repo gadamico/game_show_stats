@@ -126,6 +126,27 @@ def plyr2_too_small_and_plyr3_goes_over(plyr1):
     prob *= np.sum(plyr3spin1s) / 400
     return prob
 
+def plyr2_goes_over_and_plyr3_too_small(plyr1):
+    """This function returns the probability that both Player 2's
+    total will be over $1.00 and Player 3's will be under
+    Player 1's (after failing to match or exceed Player 1's total on
+    the first spin). This function follows the optimal strategy for
+    Player 2 according to which Player 2 should spin again with 50
+    cents or less (even if the first spin is enough to defeat Player
+    1's score)."""
+    
+    import numpy as np
+    prob = 1
+    plyr2spin1unders = np.arange(1, plyr1)
+    underspins = np.sum(plyr2spin1unders)
+    plyr2spin1overs = np.arange(plyr1+1, 10)
+    overspins = np.sum(plyr2spin1overs)
+    prob *= np.sum((underspins, overspins)) / 400
+    plyr3spin1s = np.arange(1, plyr1-1)
+    addends = [(plyr1-1-plyr3spin1) for plyr3spin1 in plyr3spin1s]
+    prob *= np.sum(addends) / 400
+    return prob
+
 def first_player():
     """This function simulates the turn of the first person
     in the Showcase Showdown."""
