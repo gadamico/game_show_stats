@@ -225,6 +225,22 @@ def plyr2_ties_plyr1_spins_again_then_wins(plyr1):
     
     return prob
 
+def plyr2_ties_then_exceeds_plyr3_too_small(plyr1):
+    """This function returns the probability that Player 1
+    wins after:
+    - Player 2 ties then goes over $1.00
+    - Player 3 fails to surpass Player 1's score."""
+    
+    import numpy as np
+    prob = 1
+    plyr2spin1s = np.arange(1, 14)
+    prob *= np.sum(plyr2spin1s) / 400
+    plyr3spin1s = np.arange(1, plyr1-1)
+    addends = [(plyr1 - 1 - plyr3spin1) for plyr3spin1 in plyr3spin1s]
+    prob *= np.sum(addends) / 400
+    
+    return prob
+
 def first_player():
     """This function simulates the turn of the first person
     in the Showcase Showdown."""
