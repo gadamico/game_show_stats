@@ -165,6 +165,66 @@ def plyr2_and_plyr3_go_over(plyr1):
     prob *= np.sum(plyr3spin1s) / 400
     return prob
 
+def plyr2_ties_plyr1_stays_then_wins(plyr1):
+    """This function returns the probability that Player 2
+    wins by tying Player 1 on the first spin and then staying."""
+    
+    import numpy as np
+    prob = 0.05
+    plyr3spin1s = np.arange(1, plyr1-1)
+    too_small_addends = [(plyr1 - 1 - plyr3spin1) for plyr3spin1 in plyr3spin1s]
+    plyr3_too_small = np.sum(too_small_addends)
+    if plyr1 <= 13:
+        plyr3spin1s_alt = np.arange(1, plyr1+1)
+        plyr3_too_big = np.sum(plyr3spin1s_alt)
+    
+        plyr3_ties = (plyr1-1)
+    
+        prob *= (plyr3_too_small + plyr3_too_big) / 800 + plyr3_ties / 1200
+    
+    else:
+        plyr3spin1s_alt = np.arange(1, plyr1)
+        plyr3_too_big = np.sum(plyr3spin1s_alt)
+        
+        plyr3_ties = (plyr1-1) / 20 + 1
+        
+        prob *= (plyr3_too_small + plyr3_too_big) / 800 + plyr3_ties / 60
+    
+    return prob
+
+def plyr2_ties_plyr1_spins_again_then_wins(plyr1):
+    """This function returns the probability that Player 2
+    wins by tying Player 1 on the first spin and then spinning
+    again."""
+    
+    import numpy as np
+    prob = 0
+    plyr2spin2s = np.arange(1, 21-plyr1)
+    
+    for plyr2spin2 in plyr2spin2s:
+        plyr3spin1s = np.arange(1, plyr1+plyr2spin2-1)
+        too_small_addends = [(plyr1 + plyr2spin2 - 1 - plyr3spin1)\
+                             for plyr3spin1 in plyr3spin1s]
+        plyr3_too_small = np.sum(too_small_addends) / 400
+        
+        plyr3spin1s_alt = np.arange(1, plyr1+plyr2spin2)
+        plyr3_too_big = np.sum(plyr3spin1s_alt) / 400
+    
+        plyr3_ties_two_spins = (plyr1 + plyr2spin2 - 1) / 800
+        
+        if plyr1 + plyr2spin2 <= 10:
+            plyr3_ties_one_spin = (plyr1 + plyr2spin2) / 800
+    
+        else:
+            plyr3_ties_one_spin = 1 / 40
+        
+        prob += (plyr3_too_small + plyr3_too_big\
+                     + plyr3_ties_two_spins + plyr3_ties_one_spin)
+   
+    prob *= 1 / 400
+    
+    return prob
+
 def first_player():
     """This function simulates the turn of the first person
     in the Showcase Showdown."""
