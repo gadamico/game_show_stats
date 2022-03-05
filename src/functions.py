@@ -247,7 +247,10 @@ def plyr2_ties_then_exceeds_plyr3_exceeds(plyr1):
     
     import numpy as np
     prob = plyr1 / 400
-    plyr3spin1s = np.arange(1, plyr1+1)
+    if plyr1 <= 10:
+        plyr3spin1s = np.arange(1, plyr1+1)
+    else:
+        plyr3spin1s = np.arange(1, plyr1)
     prob *= np.sum(plyr3spin1s) / 400
     
     return prob
