@@ -245,7 +245,7 @@ def plyr2_ties_then_exceeds_plyr3_exceeds(plyr1):
     """This function returns the probability that Player 1
     wins after:
     - Player 2 ties then goes over $1.00
-    - Player 3 exceeds $1.00."""
+    - Player 3 goes over $1.00."""
     
     import numpy as np
     prob = plyr1 / 400
@@ -278,9 +278,9 @@ def plyr2_ties_then_exceeds_plyr3_ties_then_loses(plyr1):
 def plyr2_ties_then_loses_plyr3_too_small(plyr1):
     """This function returns the probability that Player 1
     wins after:
-    - Player 2 ties then goes over $1.00
-    - Player 3 ties then loses to Player 1 in a one-spin
-    playoff."""
+    - Player 2 ties, stays, then loses to Player 1 in a
+    one-spin playoff
+    - Player 3 fails to surpass Player 1's score."""
     
     import numpy as np
     if plyr1 < 14:
@@ -292,8 +292,8 @@ def plyr2_ties_then_loses_plyr3_too_small(plyr1):
 def plyr2_ties_then_loses_plyr3_exceeds(plyr1):
     """This function returns the probability that Player 1
     wins after:
-    - Player 2 ties then loses to Player 1 in a one-spin
-    playoff
+    - Player 2 ties, stays, then loses to Player 1 in a
+    one-spin playoff
     - Player 3 ties goes over $1.00."""
     
     import numpy as np
@@ -302,6 +302,65 @@ def plyr2_ties_then_loses_plyr3_exceeds(plyr1):
     else:
         plyr3spin1s = np.arange(1, plyr1)
         return np.sum(plyr3spin1s) / 16000
+    
+def plyr2_ties_then_loses_plyr3_ties_then_loses(plyr1):
+    """This function returns the probability that Player 1
+    wins after:
+    - Player 2 ties, stays, then loses to Player 1 in a
+    one-spin playoff
+    - Player 3 ties then loses to Player 1 in a one-spin
+    playoff."""
+    
+    if plyr1 < 14:
+        return 0
+    else:
+        return 1 / 60 * (1 / 20 + (plyr1-1) / 400)
+    
+def plyr2_ties_on2_then_loses_plyr3_too_small(plyr1):
+    """This function returns the probability that Player 1
+    wins after:
+    - Player 2 ties Player 1 on two spins, then loses to
+    Player 1 in a one-spin playoff
+    - Player 3 fails to surpass Player 1's score."""
+    
+    import numpy as np
+    prob = (plyr1-1) / 400
+    plyr3spin1s = np.arange(1, plyr1-1)
+    addends = [(plyr1 - 1 - plyr3spin1) for plyr3spin1 in plyr3spin1s]
+    prob *= np.sum(addends) / 800
+    return prob
+
+def plyr2_ties_on2_then_loses_plyr3_exceeds(plyr1):
+    """This function returns the probability that Player 1
+    wins after:
+    - Player 2 ties Player 1 on two spins, then loses to
+    Player 1 in a one-spin playoff
+    - Player 3 goes over $1.00."""
+    
+    import numpy as np
+    prob = (plyr1 - 1) / 400
+    if plyr1 < 13:
+        limit = plyr1+1
+    else:
+        limit = plyr1
+    plyr3spin1s = np.arange(1, limit)
+    prob *= np.sum(plyr3spin1s) / 400
+    return prob
+
+def plyr2_ties_on2_then_loses_plyr3_ties_then_loses(plyr1):
+    """This function returns the probability that Player 1
+    wins after:
+    - Player 2 ties Player 1 on two spins, then loses to Player 1 in a
+    one-spin playoff
+    - Player 3 ties then loses to Player 1 in a one-spin
+    playoff."""
+    
+    prob = (plyr1-1) / 400
+    if plyr1 < 13:
+        prob *= (plyr1-1) / 1200
+    else:
+        prob *= (1 / 60 + (plyr1-1) / 1200)
+    return prob
 
 def first_player():
     """This function simulates the turn of the first person
