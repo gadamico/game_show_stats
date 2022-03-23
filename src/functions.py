@@ -103,7 +103,7 @@ def plyr2_defeats_plyr3(plyr2, spin_again=True):
 
 def prob_plyr2_and_plyr3_too_small(plyr1):
     """This function returns the probability that Player 2's
-    total and Player 3's total  will be under Player 1's
+    total and Player 3's total will be under Player 1's
     (input)."""
     
     import numpy as np
@@ -429,6 +429,19 @@ def plyr2_exceeds_plyr3_ties_then_loses(plyr1):
         plyr3_prob += 1 / 40
     prob *= plyr3_prob
     return prob
+
+def plyr2_and_plyr3_too_small_given_first_spin_plyr1(spin1):
+    """This function returns the probability that Player 2's
+    total and Player 3's total will be under Player 1's,
+    given the value of Player 1's first spin as input."""
+    
+    import numpy as np
+    prob = 0
+    for spin2 in np.arange(1, 21-spin1):
+        plyr2spin1s = np.arange(1, spin1+spin2-1)
+        addends_plyr2 = [(spin1+spin2-1-plyr2spin1) for plyr2spin1 in plyr2spin1s]
+        prob += (np.sum(addends_plyr2))**2
+    return prob / 20**5
 
 def first_player():
     """This function simulates the turn of the first person
