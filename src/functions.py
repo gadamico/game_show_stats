@@ -498,6 +498,22 @@ def plyr2_and_plyr3_go_over_given_first_spin_plyr1(spin1):
         prob += plyr2*plyr3
     return prob / 20**5
 
+def plyr2_ties_then_exceeds_plyr3_too_small_given_first_spin_plyr1(spin1):
+    """This function returns the probability that:
+    - Player 2 ties Player 1 and then goes over, and
+    - Player 3's total will be under Player 1's,
+    given the value of Player 1's first spin as input."""
+    
+    import numpy as np
+    prob = 0
+    for spin2 in np.arange(1, 14-spin1):
+        plyr2 = spin1+spin2
+        plyr3_spin1s = np.arange(1, spin1+spin2-1)
+        plyr3_addends = [spin1+spin2-1-plyr3spin1 for plyr3spin1 in plyr3_spin1s]
+        plyr3 = np.sum(plyr3_addends)
+        prob += plyr2*plyr3
+    return prob / 20**5
+
 def first_player():
     """This function simulates the turn of the first person
     in the Showcase Showdown."""
