@@ -571,7 +571,7 @@ def plyr2_ties_then_loses_plyr3_too_small_given_first_spin_plyr1(spin1):
         prob += plyr2*plyr3
     return prob / 20**4
 
-def plyr2_ties_then_loses_plyr3_too_small_given_first_spin_plyr1(spin1):
+def plyr2_ties_then_loses_plyr3_exceeds_given_first_spin_plyr1(spin1):
     """This function returns the probability that:
     - Player 2 ties Player 1 and then loses in a one-spin playoff, and
     - Player 3 exceeds $1.00,
@@ -588,6 +588,25 @@ def plyr2_ties_then_loses_plyr3_too_small_given_first_spin_plyr1(spin1):
             plyr3 = np.sum(plyr3_spin1s)
         prob += plyr2*plyr3
     return prob / 20**4
+
+def plyr2_ties_then_loses_plyr3_ties_then_loses_given_first_spin_plyr1(spin1):
+    """This function returns the probability that:
+    - Player 2 ties Player 1 on one spin and then loses in a
+    one-spin playoff, and
+    - Player 3 ties Players 1 and 2 and then loses in a
+    one-spin playoff,
+    given the value of Player 1's first spin as input."""
+    
+    import numpy as np
+    prob = 0
+    for spin2 in np.arange(1, 21-spin1):
+        plyr2 = 1/3
+        if spin1+spin2 < 14:
+            plyr3 = 0
+        else:
+            plyr3 = (spin1+spin2-1) / 20 + 1
+        prob += plyr2*plyr3
+    return prob / 20**3
 
 def first_player():
     """This function simulates the turn of the first person
