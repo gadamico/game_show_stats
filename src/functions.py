@@ -78,24 +78,24 @@ def plyr3_ties_then_loses_given_first_spin_plyr2(spin1):
         out += 1 / 2 + (spin1+spin2-1) / 40
     return out / 400
 
-def plyr2_defeats_plyr3(plyr2, spin_again=True):
+def plyr2_defeats_plyr3(spin1, spin_again=True):
     """This function returns the probability that Player 2
     defeats Player 3, given the value of Player 2's first
     spin as input. This function assumes that Player 1 is
     out of the picture (either because of exceeding $1.00
-    or by having a total less than Player 2's first spin."""
+    or by having a total less than Player 2's first spin)."""
     
     import numpy as np
     prob = 1
     if spin_again:
-        plyr3_too_small = plyr3_too_small_given_first_spin_plyr2(plyr2)
-        plyr3_goes_over = plyr3_goes_over_given_first_spin_plyr2(plyr2)
-        plyr3_ties_then_loses = plyr3_ties_then_loses_given_first_spin_plyr2(plyr2)
+        plyr3_too_small = plyr3_too_small_given_first_spin_plyr2(spin1)
+        plyr3_goes_over = plyr3_goes_over_given_first_spin_plyr2(spin1)
+        plyr3_ties_then_loses = plyr3_ties_then_loses_given_first_spin_plyr2(spin1)
     
     else:
-        plyr3_too_small = prob_plyr3_too_small(plyr2)
-        plyr3_goes_over = prob_plyr3_goes_over(plyr2)
-        plyr3_ties_then_loses = prob_plyr3_ties_then_loses(plyr2)
+        plyr3_too_small = prob_plyr3_too_small(spin1)
+        plyr3_goes_over = prob_plyr3_goes_over(spin1)
+        plyr3_ties_then_loses = prob_plyr3_ties_then_loses(spin1)
     
     prob *= (plyr3_too_small + plyr3_goes_over + plyr3_ties_then_loses)
     
